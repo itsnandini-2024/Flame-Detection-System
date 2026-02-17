@@ -1,0 +1,76 @@
+#include <DHT.h>
+
+// ---------------- PIN DEFINITIONS ----------------
+#define DHTPIN 2
+#define DHTTYPE DHT11
+
+#define FLAME_PIN 3
+#define LED_PIN 9
+
+// ---------------- OBJECT CREATION ----------------
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+
+  pinMode(FLAME_PIN, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+
+  digitalWrite(LED_PIN, LOW);
+
+  Serial.println("Smart Fire Risk Monitoring System Started");
+  Serial.println("--------------------------------------");
+}
+
+void loop() {
+
+  // -------- READ SENSORS --------
+  float temperature = dht.readTemperature();   // °C
+  float humidity = dht.readHumidity();
+  int flameValue = digitalRead(FLAME_PIN);     // 0 or 1
+
+  // -------- CHECK DHT11 ERROR --------
+  if (isnan(temperature) || isnan(humidity)) {
+    Serial.println("Error reading DHT11 sensor");
+    delay(2000);
+    return;
+  }
+
+  // -------- DISPLAY VALUES --------
+  Serial.print("Temperature: ");
+  Serial.print(temperature);
+  Serial.print(" °C | Humidity: ");
+  Serial.print(humidity);
+  Serial.print(" % | Flame Value: ");
+  Serial.println(flameValue);
+
+  // -------- FIRE RISK LOGIC --------
+  // Condition explanation:
+  // Flame Value = 0  → Flame detected
+  // Temperature > 45 → Abnormally high temperature
+
+  if (flameValue == 0 && temperature > 30) {
+    // Strong fire confirmation
+    digitalWrite(LED_PIN, HIGH);
+    Serial.println("🔥 FIRE CONFIRMED (Flame + Heat)");
+  }
+  else if (flameValue == 0) {
+    // Flame detected only
+    digitalWrite(LED_PIN, HIGH);
+    Serial.println("⚠ FIRE RISK (Flame Detected)");
+  }
+  else if (temperature > 45) {
+    // Temperature-based warning
+    digitalWrite(LED_PIN, HIGH);
+    Serial.println("⚠ FIRE RISK (High Temperature)");
+  }
+  else {
+    // Safe condition
+    digitalWrite(LED_PIN, LOW);
+    Serial.println("Environment Safe");
+  }
+
+  Serial.println("--------------------------------------");
+  delay(2000);
+}
