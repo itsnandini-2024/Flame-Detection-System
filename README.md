@@ -1,1 +1,5 @@
-![WhatsApp Image 2026-02-17 at 19 10 20](https://github.com/user-attachments/assets/a6c8d71e-8aa3-44b9-842d-149a251f6f97)
+![Hardware setup](https://github.com/user-attachments/assets/a6c8d71e-8aa3-44b9-842d-149a251f6f97)
+![Wiring](![wiring](https://github.com/user-attachments/assets/2000bc36-63f0-49a9-822b-54d8905338a5)
+.jpg)
+![Output](![WhatsApp Image 2026-02-17 at 19 10 20 (1)](https://github.com/user-attachments/assets/bac00c96-9954-494a-b3cd-6f58373ca080)
+.jpg)
